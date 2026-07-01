@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Nav } from "@/components/Nav";
 
 // Project data for the preview cards
 const projects = [
@@ -31,38 +32,7 @@ const projects = [
 export default function Home() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#FAF8F5" }}>
-      {/* Nav */}
-      <nav className="max-w-6xl mx-auto flex items-center justify-between px-8 py-6">
-        <span
-          className="text-xl font-bold"
-          style={{ fontFamily: "var(--font-space-grotesk)", color: "#1A1A1A" }}
-        >
-          Mia Davidson
-        </span>
-        <div className="flex gap-8 text-sm font-medium">
-          <a
-            href="#work"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            Work
-          </a>
-          <a
-            href="#about"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            About
-          </a>
-          <a
-            href="/contact"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            Contact
-          </a>
-        </div>
-      </nav>
+      <Nav />
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-8 pt-20 pb-28">

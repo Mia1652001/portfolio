@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState, FormEvent } from "react";
+import { Nav } from "@/components/Nav";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqevyeda";
 
@@ -48,39 +48,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#FAF8F5" }}>
-      {/* Nav */}
-      <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-8 py-6">
-        <Link
-          href="/"
-          className="text-xl font-bold"
-          style={{ fontFamily: "var(--font-space-grotesk)", color: "#1A1A1A" }}
-        >
-          Mia Davidson
-        </Link>
-        <div className="flex gap-6 sm:gap-8 text-sm font-medium">
-          <Link
-            href="/#work"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            Work
-          </Link>
-          <Link
-            href="/#about"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            About
-          </Link>
-          <Link
-            href="/contact"
-            className="transition-opacity hover:opacity-60"
-            style={{ color: "#1A1A1A" }}
-          >
-            Contact
-          </Link>
-        </div>
-      </nav>
+      <Nav />
 
       <main className="max-w-2xl mx-auto px-6 sm:px-8 pt-12 pb-24">
         {/* Heading */}
