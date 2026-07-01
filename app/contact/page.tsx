@@ -91,7 +91,7 @@ export default function ContactPage() {
           Contact me
         </h1>
         <p className="text-lg mb-10 leading-relaxed" style={{ color: "#6B6B66" }}>
-          Tell me about your project — what you&apos;re building, what you need, and
+          Tell me about your project - what you&apos;re building, what you need, and
           I&apos;ll get back to you soon.
         </p>
 
@@ -226,7 +226,7 @@ export default function ContactPage() {
 
           {status === "success" && (
             <p className="text-sm" style={{ color: "#1A1A1A" }}>
-              Thanks for reaching out! Your message is on its way — I&apos;ll get back
+              Thanks for reaching out! Your message is on its way - I&apos;ll get back
               to you soon.
             </p>
           )}

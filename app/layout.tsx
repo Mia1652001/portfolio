@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Mia Davidson — Web Developer",
+  title: "Mia Davidson - Web Developer",
   description: "Clean, fast websites built for small businesses.",
 };
 

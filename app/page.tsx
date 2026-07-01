@@ -55,7 +55,7 @@ export default function Home() {
             About
           </a>
           <a
-            href="#contact"
+            href="/contact"
             className="transition-opacity hover:opacity-60"
             style={{ color: "#1A1A1A" }}
           >
@@ -74,7 +74,7 @@ export default function Home() {
         </h1>
         <p className="text-lg mb-10 max-w-md leading-relaxed" style={{ color: "#6B6B66" }}>
           I build clean, fast sites for small businesses that are ready to
-          grow — no bloated templates, just work that converts.
+          grow - no bloated templates, just work that converts.
         </p>
         <a
           href="/contact"
@@ -124,7 +124,7 @@ export default function Home() {
           Contact me
         </h2>
         <p className="text-lg mb-10 max-w-md leading-relaxed" style={{ color: "#6B6B66" }}>
-          Got a project in mind? I&apos;d love to hear about it — reach out and let&apos;s chat.
+          Got a project in mind? I&apos;d love to hear about it - reach out and let&apos;s chat.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <a
