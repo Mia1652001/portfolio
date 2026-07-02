@@ -43,8 +43,8 @@ export default function Home() {
           Websites built to work as hard as you do.
         </h1>
         <p className="text-lg mb-10 max-w-md leading-relaxed" style={{ color: "#6B6B66" }}>
-          I build clean, fast sites for small businesses that are ready to
-          grow - no bloated templates, just work that converts.
+          From e-commerce stores to custom tools, I design and build sites
+          that look great and actually work.
         </p>
         <a
           href="/contact"
@@ -91,8 +91,8 @@ export default function Home() {
           About me
         </h2>
         <p className="text-lg max-w-prose leading-relaxed" style={{ color: "#6B6B66" }}>
-          I build websites and simple systems for small businesses and brands.
-          Working with me means clear communication, creative solutions, and
+          I build websites and systems for businesses and brands. Working
+          with me means clear communication, creative solutions, and
           genuine collaboration from start to finish. My path here was
           hands-on: I started coding a few years ago on personal projects,
           began building sites for friends, and now take on client work. I
