@@ -85,6 +85,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* About */}
+      <section id="about" className="max-w-6xl mx-auto px-8 pb-28">
+        <h2 className="text-3xl font-bold mb-4" style={{ color: "#1A1A1A" }}>
+          About me
+        </h2>
+        <p className="text-lg max-w-prose leading-relaxed" style={{ color: "#6B6B66" }}>
+          I build websites and simple systems for small businesses and brands.
+          Working with me means clear communication, creative solutions, and
+          genuine collaboration from start to finish. My path here was
+          hands-on: I started coding a few years ago on personal projects,
+          began building sites for friends, and now take on client work. I
+          love that this job lets me combine creativity and technology to
+          help brands grow.
+        </p>
+      </section>
+
       {/* Contact */}
       <section id="contact" className="max-w-6xl mx-auto px-8 pb-28">
         <h2
