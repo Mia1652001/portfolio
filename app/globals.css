@@ -7,6 +7,10 @@
 }
 
 /* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #FAF8F5;
   color: #1A1A1A;

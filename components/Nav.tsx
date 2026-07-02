@@ -1,13 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useState, MouseEvent } from "react";
 
 const linkStyles = "transition-opacity hover:opacity-60";
 
 // Site nav bar: inline links on desktop, a hamburger dropdown on mobile
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Scrolls straight to the About section when already on the homepage, since
+  // Next.js Link doesn't scroll for a hash-only change on the current route
+  function handleAboutClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (pathname === "/") {
+      event.preventDefault();
+      document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false);
+  }
 
   return (
     <nav className="max-w-6xl mx-auto px-6 sm:px-8 py-6">
@@ -22,7 +34,12 @@ export function Nav() {
 
         {/* Desktop links */}
         <div className="hidden md:flex gap-8 text-sm font-medium">
-          <Link href="/#about" className={linkStyles} style={{ color: "#1A1A1A" }}>
+          <Link
+            href="/#about"
+            onClick={handleAboutClick}
+            className={linkStyles}
+            style={{ color: "#1A1A1A" }}
+          >
             About
           </Link>
           <Link href="/contact" className={linkStyles} style={{ color: "#1A1A1A" }}>
@@ -49,7 +66,7 @@ export function Nav() {
         <div className="md:hidden flex flex-col gap-4 pt-6 text-sm font-medium">
           <Link
             href="/#about"
-            onClick={() => setIsOpen(false)}
+            onClick={handleAboutClick}
             className={linkStyles}
             style={{ color: "#1A1A1A" }}
           >
