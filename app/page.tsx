@@ -1,34 +1,7 @@
-import Image from "next/image";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-
-// Project data for the preview cards
-const projects = [
-  {
-    name: "Betty Beach",
-    description: "Swimwear e-commerce brand",
-    image: "/betty-beach.png",
-    width: 1932,
-    height: 1484,
-    borderColor: "#E4DCC8",
-  },
-  {
-    name: "WEARhouse",
-    description: "Shopify clothing store",
-    image: "/wearhouse.png",
-    width: 1974,
-    height: 1482,
-    borderColor: "#1F1F1F",
-  },
-  {
-    name: "Fleet Manager",
-    description: "Rental car management app",
-    image: "/fleet-manager.png",
-    width: 1984,
-    height: 1486,
-    borderColor: "#D9DED6",
-  },
-];
+import { Work } from "@/components/Work";
+import { Services } from "@/components/Services";
 
 export default function Home() {
   return (
@@ -37,39 +10,12 @@ export default function Home() {
 
       <Hero />
 
-      {/* Project Preview Cards */}
-      <section id="work" className="max-w-7xl mx-auto px-8 pt-20 pb-28">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <div key={project.name} className="group cursor-pointer">
-              {/* Project screenshot */}
-              <Image
-                src={project.image}
-                alt={project.name}
-                width={project.width}
-                height={project.height}
-                className="w-full h-auto object-contain rounded-lg border-4"
-                style={{ borderColor: project.borderColor }}
-              />
-              <p
-                className="mt-3 text-xl font-bold"
-                style={{
-                  fontFamily: "var(--font-space-grotesk)",
-                  color: "#1A1A1A",
-                }}
-              >
-                {project.name}
-              </p>
-              <p className="mt-1 text-sm" style={{ color: "#6B6B66" }}>
-                {project.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Work />
+
+      <Services />
 
       {/* About */}
-      <section id="about" className="max-w-6xl mx-auto px-8 pb-28">
+      <section id="about" className="max-w-6xl mx-auto px-8 pt-24 sm:pt-32 pb-28">
         <h2 className="text-3xl font-bold mb-4" style={{ color: "#1A1A1A" }}>
           About me
         </h2>
@@ -100,7 +46,7 @@ export default function Home() {
             href="mailto:Mia1652001@gmail.com"
             className="inline-block px-8 py-3 border-2 border-[#1A1A1A] text-[#1A1A1A] text-sm font-medium tracking-wide text-center transition-colors hover:bg-[#1A1A1A] hover:text-[#FAF8F5]"
           >
-            Mia1652001@gmail.com
+            Email me
           </a>
           <a
             href="https://wa.me/4746440713"

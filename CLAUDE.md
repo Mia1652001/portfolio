@@ -66,12 +66,18 @@ The colors and fonts live in `app/globals.css` (inside the `@theme` blocks). Alw
 - Import it in components with: `import { motion } from "motion/react"`
 - Any component that uses motion needs `'use client'` at the top.
 - Keep animations subtle: short fades and slides, nothing flashy.
+- Only animate movement (`x`, `y`, `scale`), fading (`opacity`) and blur — never width, height or position, so it stays smooth on phones.
+- Motion values (scroll effects, magnetic pull) go through motion's `style` prop. This is the one allowed exception to "no inline styles".
+- Reduced motion: every animation must turn off when the visitor has it switched on. Check it with `usePrefersReducedMotion()` from `lib/useMediaQuery.ts` (not motion's own `useReducedMotion`, which can cause a server/browser mismatch). For CSS animations use the `motion-safe:` prefix.
+- The hero background (grid, spotlight, data pulses) is drawn on a canvas in `components/HeroCanvas.tsx`.
 
 ## Portfolio Projects (to feature on the site)
 
-1. **Betty Beach** — swimwear/bikini e-commerce brand. Built with Next.js, TypeScript, Tailwind. Custom branding: cream/terracotta/teal palette, Bodoni Moda typography. Live: bettybeachstudios.com  
-2. **WEARhouse** — clothing store built for a client on Shopify. Bold gold/black palette, witty copy. Shows client work and working with an existing brand.  
-3. **Fleet Manager** — rental car management web app. Add cars, rent them out, sort by name/status/return date, filter by available/rented, live data. Live: [https://mia1652001.github.io/fleet-manager-/fleet-manager.html](https://mia1652001.github.io/fleet-manager-/fleet-manager.html)
+All project text, links, numbers and screenshot paths live in `lib/projects.ts`, and so does the services section text. Edit that file to update the work and services sections. Screenshots go in `public/projects`.
+
+1. **VeFlow** (featured case study) — my own SaaS car rental software, used by rental companies across Mauritius. Paying customers, English and French, new releases every week. Live: [veflowapp.com](https://veflowapp.com)  
+2. **Betty Beach** — swimwear/bikini e-commerce brand. Built with Next.js, TypeScript, Tailwind. Custom branding: cream/terracotta/teal palette, Bodoni Moda typography. Live: bettybeachstudios.com  
+3. **WEARhouse** — clothing store built for a client on Shopify. Bold gold/black palette, witty copy. Shows client work and working with an existing brand.
 
 ## Site Sections
 

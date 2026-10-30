@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, MouseEvent } from "react";
+import { motion, useMotionValueEvent, useScroll, useSpring } from "motion/react";
+import { usePrefersReducedMotion } from "@/lib/useMediaQuery";
 
 // Section links shown in the nav, each pointing at a section id on the homepage
 const navLinks = [
@@ -14,26 +16,44 @@ const navLinks = [
 const linkStyles =
   "font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent";
 
-// Site nav bar: inline links on desktop, a hamburger dropdown on mobile
+// Site nav bar: inline links on desktop, a hamburger dropdown on mobile.
+// Turns into frosted glass with a mint scroll progress line once you scroll.
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const reduceMotion = usePrefersReducedMotion();
+
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
+
+  // Switches to the frosted glass look as soon as the page is scrolled
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 8);
+  });
 
   // Scrolls to a homepage section when already on the homepage, since
-  // Next.js Link doesn't scroll for a hash-only change on the current route
+  // Next.js Link doesn't scroll for a hash-only change on the current route.
+  // The mobile menu closes first: closing it shrinks the nav and moves the page,
+  // so the scroll waits a frame to aim at where the section ends up.
   function handleSectionClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    setIsOpen(false);
     if (pathname === "/") {
       event.preventDefault();
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      document
-        .getElementById(id)
-        ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      requestAnimationFrame(() => {
+        document
+          .getElementById(id)
+          ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      });
     }
-    setIsOpen(false);
   }
 
   return (
-    <header className="bg-bg border-b border-line">
+    <header
+      className={`sticky top-0 z-50 border-b border-line transition-[background-color] duration-300 motion-reduce:transition-none ${
+        isScrolled ? "bg-bg/70 backdrop-blur-md" : "bg-bg"
+      }`}
+    >
       <nav className="max-w-6xl mx-auto px-5 sm:px-8 py-4 sm:py-5">
         <div className="flex items-center justify-between gap-3">
           {/* Name with a mint dot */}
@@ -96,6 +116,15 @@ export function Nav() {
           </div>
         )}
       </nav>
+
+      {/* Mint line along the bottom that fills up as you scroll down the page */}
+      {!reduceMotion && (
+        <motion.div
+          aria-hidden="true"
+          style={{ scaleX: progress }}
+          className="absolute inset-x-0 -bottom-px h-px origin-left bg-accent"
+        />
+      )}
     </header>
   );
 }

@@ -216,7 +216,7 @@ export default function ContactPage() {
               href="mailto:Mia1652001@gmail.com"
               className="inline-block px-8 py-3 border-2 border-[#1A1A1A] text-[#1A1A1A] text-sm font-medium tracking-wide text-center transition-colors hover:bg-[#1A1A1A] hover:text-[#FAF8F5]"
             >
-              Mia1652001@gmail.com
+              Email me
             </a>
             <a
               href="https://wa.me/4746440713"
