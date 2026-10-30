@@ -31,6 +31,42 @@ The dev server runs at: [http://localhost:3000](http://localhost:3000)
 - **Comments:** add a short comment above every function explaining what it does  
 - Always include loading states and error handling
 
+## Design System — Dark High Tech Look
+
+The colors and fonts live in `app/globals.css` (inside the `@theme` blocks). Always use the Tailwind class names below. Never type hex codes like `#1A1A1A` straight into components.
+
+### Colors
+
+| Role | Hex | Tailwind classes |
+| --- | --- | --- |
+| Background | `#07090C` | `bg-bg` |
+| Main text | `#E8ECEF` | `text-text` |
+| Muted text | `#A3ADB5` | `text-muted` |
+| Accent (mint) | `#5CF2B8` | `text-accent`, `bg-accent`, `border-accent` |
+| Border lines | `#1F262D` | `border-line`, `bg-line` |
+
+- Mint is the only bright color. Use it sparingly: buttons, links, hover states, small highlights.
+- Text on a mint background uses `text-bg` (dark) so it stays readable.
+- Thin borders and dividers use `border-line`.
+
+### Fonts
+
+| Use | Font | Tailwind class |
+| --- | --- | --- |
+| Headings | Space Grotesk | `font-heading` (applied to h1–h6 automatically) |
+| Body text | Inter | `font-sans` (the default) |
+| Small labels, tags, numbers | JetBrains Mono | `font-mono` |
+
+- Fonts are loaded in `app/layout.tsx` with `next/font/google`.
+- Small labels: `font-mono text-xs uppercase tracking-widest text-muted` is a good starting style.
+
+### Animation
+
+- Use the **motion** library (package name `motion`) for animations.
+- Import it in components with: `import { motion } from "motion/react"`
+- Any component that uses motion needs `'use client'` at the top.
+- Keep animations subtle: short fades and slides, nothing flashy.
+
 ## Portfolio Projects (to feature on the site)
 
 1. **Betty Beach** — swimwear/bikini e-commerce brand. Built with Next.js, TypeScript, Tailwind. Custom branding: cream/terracotta/teal palette, Bodoni Moda typography. Live: bettybeachstudios.com  
@@ -60,11 +96,12 @@ The dev server runs at: [http://localhost:3000](http://localhost:3000)
 ### Done
 
 - [x] Project created with `create-next-app` (TypeScript, Tailwind, App Router)
+- [x] Dark design system set up: colors, three fonts, motion library installed
 
 ### Known Issues
 
-*Add bugs or things to fix here*
+- The old light colors are still typed in as inline styles in `app/page.tsx`, `app/contact/page.tsx` and `components/Nav.tsx`. They need replacing with the new Tailwind color classes.
 
 ### Next Steps
 
-*Add upcoming tasks here*  
+- Restyle each page and component with the new dark design system  

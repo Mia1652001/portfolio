@@ -1,9 +1,32 @@
 @import "tailwindcss";
 
-/* Register font CSS variables as Tailwind utilities */
+/*
+  Design system — dark high tech look.
+  Each color below becomes a Tailwind class automatically:
+  --color-bg      → bg-bg, text-bg, border-bg
+  --color-text    → text-text, bg-text
+  --color-muted   → text-muted
+  --color-accent  → text-accent, bg-accent, border-accent
+  --color-line    → border-line, bg-line
+*/
+@theme {
+  --color-bg: #07090C;
+  --color-text: #E8ECEF;
+  --color-muted: #A3ADB5;
+  --color-accent: #5CF2B8;
+  --color-line: #1F262D;
+}
+
+/*
+  Fonts — each becomes a Tailwind class:
+  --font-sans    → font-sans (Inter, body text)
+  --font-heading → font-heading (Space Grotesk, headings)
+  --font-mono    → font-mono (JetBrains Mono, small labels)
+*/
 @theme inline {
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 /* Base styles */
@@ -12,8 +35,8 @@ html {
 }
 
 body {
-  background-color: #FAF8F5;
-  color: #1A1A1A;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -24,4 +47,10 @@ h4,
 h5,
 h6 {
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
+}
+
+/* Mint highlight when text is selected */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
 }
