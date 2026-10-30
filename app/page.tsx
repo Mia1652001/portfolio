@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Nav } from "@/components/Nav";
+import { Hero } from "@/components/Hero";
 
 // Project data for the preview cards
 const projects = [
@@ -34,28 +35,10 @@ export default function Home() {
     <div className="min-h-screen" style={{ backgroundColor: "#FAF8F5" }}>
       <Nav />
 
-      {/* Hero */}
-      <section className="max-w-6xl mx-auto px-8 pt-20 pb-28">
-        <h1
-          className="text-5xl font-bold leading-tight mb-6 max-w-2xl"
-          style={{ color: "#1A1A1A" }}
-        >
-          Websites built to work as hard as you do.
-        </h1>
-        <p className="text-lg mb-10 max-w-md leading-relaxed" style={{ color: "#6B6B66" }}>
-          From e-commerce stores to custom tools, I design and build sites
-          that look great and actually work.
-        </p>
-        <a
-          href="/contact"
-          className="inline-block px-8 py-3 border-2 border-[#1A1A1A] text-[#1A1A1A] text-sm font-medium tracking-wide transition-colors hover:bg-[#1A1A1A] hover:text-[#FAF8F5]"
-        >
-          Let&apos;s work together
-        </a>
-      </section>
+      <Hero />
 
       {/* Project Preview Cards */}
-      <section id="work" className="max-w-7xl mx-auto px-8 pb-28">
+      <section id="work" className="max-w-7xl mx-auto px-8 pt-20 pb-28">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {projects.map((project) => (
             <div key={project.name} className="group cursor-pointer">
