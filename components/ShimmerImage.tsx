@@ -21,7 +21,7 @@ export function ShimmerImage({
         <div aria-hidden="true" className="absolute inset-0 shimmer motion-safe:animate-shimmer" />
       )}
       {status === "error" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-line font-mono text-xs uppercase tracking-widest text-muted">
+        <div className="absolute inset-0 flex items-center justify-center bg-panel font-mono text-xs uppercase tracking-widest text-faint">
           Image unavailable
         </div>
       )}

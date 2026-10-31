@@ -43,22 +43,21 @@ export default function ContactPage() {
   }
 
   const inputStyles =
-    "w-full px-4 py-3 border-2 bg-transparent outline-none transition-colors border-[#1A1A1A]/20 focus:border-[#1A1A1A] text-[#1A1A1A]";
-  const labelStyles = "block text-sm font-medium mb-2";
+    "w-full rounded-xl border border-line bg-bg px-4 py-3 text-text outline-none transition-colors placeholder:text-faint focus:border-text";
+  const labelStyles = "block text-sm font-medium mb-2 text-text";
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#FAF8F5" }}>
+    <div className="min-h-screen bg-bg">
       <Nav />
 
       <main className="max-w-2xl mx-auto px-6 sm:px-8 pt-12 pb-24">
         {/* Heading */}
         <h1
-          className="text-4xl sm:text-5xl font-bold leading-tight mb-4"
-          style={{ color: "#1A1A1A" }}
+          className="text-4xl sm:text-5xl font-semibold leading-tight tracking-[-0.03em] mb-4 text-text"
         >
           Contact me
         </h1>
-        <p className="text-lg mb-10 leading-relaxed" style={{ color: "#6B6B66" }}>
+        <p className="text-lg mb-10 leading-relaxed text-muted">
           Tell me about your project - what you&apos;re building, what you need, and
           I&apos;ll get back to you soon.
         </p>
@@ -66,7 +65,7 @@ export default function ContactPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <label htmlFor="name" className={labelStyles}>
               Full name *
             </label>
             <input
@@ -80,7 +79,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <label htmlFor="email" className={labelStyles}>
               Email address *
             </label>
             <input
@@ -94,7 +93,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <span className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <span className={labelStyles}>
               This is for
             </span>
             <input type="hidden" name="type" value={contactType} />
@@ -102,10 +101,10 @@ export default function ContactPage() {
               <button
                 type="button"
                 onClick={() => setContactType("personal")}
-                className={`flex-1 px-4 py-3 text-sm font-medium border-2 transition-colors ${
+                className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium border transition-colors ${
                   contactType === "personal"
-                    ? "bg-[#1A1A1A] text-[#FAF8F5] border-[#1A1A1A]"
-                    : "border-[#1A1A1A]/20 text-[#1A1A1A]"
+                    ? "bg-text text-bg border-text"
+                    : "border-line text-text hover:bg-panel"
                 }`}
               >
                 Personal
@@ -113,10 +112,10 @@ export default function ContactPage() {
               <button
                 type="button"
                 onClick={() => setContactType("business")}
-                className={`flex-1 px-4 py-3 text-sm font-medium border-2 transition-colors ${
+                className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium border transition-colors ${
                   contactType === "business"
-                    ? "bg-[#1A1A1A] text-[#FAF8F5] border-[#1A1A1A]"
-                    : "border-[#1A1A1A]/20 text-[#1A1A1A]"
+                    ? "bg-text text-bg border-text"
+                    : "border-line text-text hover:bg-panel"
                 }`}
               >
                 Business
@@ -129,7 +128,6 @@ export default function ContactPage() {
               <label
                 htmlFor="businessName"
                 className={labelStyles}
-                style={{ color: "#1A1A1A" }}
               >
                 Business name
               </label>
@@ -144,7 +142,7 @@ export default function ContactPage() {
           )}
 
           <div>
-            <label htmlFor="needs" className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <label htmlFor="needs" className={labelStyles}>
               What do you need?
             </label>
             <select id="needs" name="needs" defaultValue="" className={inputStyles}>
@@ -158,7 +156,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <label htmlFor="budget" className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <label htmlFor="budget" className={labelStyles}>
               Budget range (optional)
             </label>
             <select id="budget" name="budget" defaultValue="" className={inputStyles}>
@@ -171,7 +169,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <label htmlFor="message" className={labelStyles} style={{ color: "#1A1A1A" }}>
+            <label htmlFor="message" className={labelStyles}>
               Message *
             </label>
             <textarea
@@ -187,19 +185,19 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="w-full sm:w-auto inline-block px-8 py-3 bg-[#1A1A1A] text-[#FAF8F5] text-sm font-medium tracking-wide transition-opacity hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto inline-block rounded-full px-7 py-3 bg-text text-bg text-[15px] font-medium transition-opacity hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {status === "loading" ? "Sending..." : "Send message"}
           </button>
 
           {status === "success" && (
-            <p className="text-sm" style={{ color: "#1A1A1A" }}>
+            <p className="text-sm text-text">
               Thanks for reaching out! Your message is on its way - I&apos;ll get back
               to you soon.
             </p>
           )}
           {status === "error" && (
-            <p className="text-sm" style={{ color: "#1A1A1A" }}>
+            <p className="text-sm text-text">
               Something went wrong sending your message. Please try again, or email me
               directly below.
             </p>
@@ -207,14 +205,14 @@ export default function ContactPage() {
         </form>
 
         {/* Direct contact options */}
-        <div className="mt-16 pt-10 border-t border-[#1A1A1A]/10">
-          <p className="text-sm mb-4" style={{ color: "#6B6B66" }}>
+        <div className="mt-16 pt-10 border-t border-line">
+          <p className="text-sm mb-4 text-muted">
             Prefer to reach out directly?
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
               href="mailto:Mia1652001@gmail.com"
-              className="inline-block px-8 py-3 border-2 border-[#1A1A1A] text-[#1A1A1A] text-sm font-medium tracking-wide text-center transition-colors hover:bg-[#1A1A1A] hover:text-[#FAF8F5]"
+              className="inline-block rounded-full px-7 py-3 border border-line bg-bg text-text text-[15px] font-medium text-center shadow-soft transition-colors hover:bg-panel"
             >
               Email me
             </a>
@@ -222,7 +220,7 @@ export default function ContactPage() {
               href="https://wa.me/4746440713"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-3 bg-[#1A1A1A] text-[#FAF8F5] text-sm font-medium tracking-wide text-center transition-opacity hover:opacity-80"
+              className="inline-block rounded-full px-7 py-3 bg-text text-bg text-[15px] font-medium text-center transition-opacity hover:opacity-85"
             >
               Message me on WhatsApp
             </a>

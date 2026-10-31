@@ -4,7 +4,6 @@ import { PointerEvent, useEffect, useRef } from "react";
 import { animate, motion, useInView, useMotionValue, useSpring } from "motion/react";
 import { useHasMouse, usePrefersReducedMotion } from "@/lib/useMediaQuery";
 import type { Project } from "@/lib/projects";
-import { BorderGlow, useBorderGlow } from "@/components/BorderGlow";
 import { ShimmerImage } from "@/components/ShimmerImage";
 
 const SCROLL_SPEED = 140; // pixels per second the screenshot scrolls inside the frame
@@ -12,7 +11,7 @@ const MIN_SCROLL = 60; // screenshots shorter than this past the frame don't scr
 const TILT = 8; // maximum card tilt in degrees
 
 // Project card: full-page screenshot in a browser frame. With a mouse, hovering
-// scrolls the screenshot, tilts the card and runs a mint glow along the border.
+// scrolls the screenshot, tilts the card and deepens its shadow.
 // On phones the screenshot scrolls by itself while the card is on screen.
 export function ProjectCard({ project }: { project: Project }) {
   const reduceMotion = usePrefersReducedMotion();
@@ -25,7 +24,6 @@ export function ProjectCard({ project }: { project: Project }) {
   const y = useMotionValue(0);
   const rotateX = useSpring(0, { stiffness: 150, damping: 18 });
   const rotateY = useSpring(0, { stiffness: 150, damping: 18 });
-  const { glow, trackGlow } = useBorderGlow();
 
   const interactive = hasMouse && !reduceMotion;
 
@@ -74,7 +72,7 @@ export function ProjectCard({ project }: { project: Project }) {
     animate(y, -distance, { duration: distance / SCROLL_SPEED, ease: "easeInOut" });
   }
 
-  // Tilts the card toward the mouse and moves the border glow with it
+  // Tilts the card toward the mouse
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (!interactive || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -82,7 +80,6 @@ export function ProjectCard({ project }: { project: Project }) {
     const top = event.clientY - rect.top;
     rotateY.set((x / rect.width - 0.5) * TILT);
     rotateX.set(-(top / rect.height - 0.5) * TILT);
-    trackGlow(event);
   }
 
   // Puts everything back when the mouse leaves
@@ -103,22 +100,17 @@ export function ProjectCard({ project }: { project: Project }) {
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
         style={interactive ? { rotateX, rotateY, transformPerspective: 1000 } : undefined}
-        className={`group relative rounded-2xl bg-line p-px ${
-          interactive ? "" : "transition-colors hover:bg-accent/40"
-        }`}
+        className="group relative rounded-2xl bg-line p-px shadow-soft transition-shadow duration-300 hover:shadow-device"
       >
-        {/* Mint glow that follows the mouse along the border */}
-        {interactive && <BorderGlow glow={glow} />}
-
         <div className="relative overflow-hidden rounded-[15px] bg-bg">
           {/* Browser bar */}
-          <div aria-hidden="true" className="flex items-center gap-3 border-b border-line px-4 py-3">
+          <div aria-hidden="true" className="flex items-center gap-3 border-b border-line bg-panel px-4 py-3">
             <span className="flex gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-line" />
-              <span className="h-2.5 w-2.5 rounded-full bg-line" />
-              <span className="h-2.5 w-2.5 rounded-full bg-line" />
+              <span className="h-2.5 w-2.5 rounded-full bg-faint/40" />
+              <span className="h-2.5 w-2.5 rounded-full bg-faint/40" />
+              <span className="h-2.5 w-2.5 rounded-full bg-faint/40" />
             </span>
-            <span className="mx-auto max-w-[60%] truncate rounded-full bg-line/60 px-3 py-1 font-mono text-[10px] text-muted">
+            <span className="mx-auto max-w-[60%] truncate rounded-full border border-line bg-bg px-3 py-1 font-mono text-[10px] text-muted">
               {urlLabel}
             </span>
             <span className="w-[42px]" />
@@ -144,7 +136,7 @@ export function ProjectCard({ project }: { project: Project }) {
       {/* Name, line, link and tags */}
       <div className="mt-6 flex items-start justify-between gap-4">
         <div>
-          <h3 className="font-heading text-2xl font-bold tracking-tight text-text">{project.name}</h3>
+          <h3 className="text-2xl font-semibold tracking-[-0.03em] text-text">{project.name}</h3>
           <p className="mt-1 leading-relaxed text-muted">{project.line}</p>
         </div>
         {project.link && (

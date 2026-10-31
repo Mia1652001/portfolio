@@ -10,12 +10,6 @@ export type Stat = {
   isYear?: boolean; // years are shown without a comma (2024, not 2,024)
 };
 
-export type Step = {
-  title: string;
-  text: string;
-  image: string; // leave as "" to show the "Screenshot coming soon" placeholder
-};
-
 export type Project = {
   id: string; // used for links that scroll to this project, e.g. "#wearhouse"
   name: string;
@@ -40,34 +34,8 @@ export const veflow = {
     { label: "Live since", value: 2026, prefix: "July", isYear: true },
   ] as Stat[],
 
-  steps: [
-    {
-      title: "Bookings",
-      text: "Pick the car and dates and VeFlow warns you if the car is already out.",
-      image: "/projects/veflow-booking.png",
-    },
-    {
-      title: "Handover checks",
-      text: "Fuel, mileage and damage marks on five views of the car.",
-      image: "/projects/veflow-handover.png",
-    },
-    {
-      title: "Agreements",
-      text: "Contracts in English and French, sent to the customer on WhatsApp in one tap.",
-      image: "/projects/veflow-agreement.png",
-    },
-    {
-      title: "Day sheet",
-      text: "Every pick-up, return and late car for tomorrow on one page.",
-      image: "/projects/veflow-daysheet.png",
-    },
-    {
-      title: "Money",
-      text: "Booked, received and outstanding for every month.",
-      image: "", // add "/projects/veflow-money.png" here once the screenshot exists
-    },
-  ] as Step[],
-
+  // Screenshots for the laptop and phone in the case study
+  laptopImage: "/projects/veflow-booking.png",
   phoneImage: "/projects/veflow-phone.png",
 
   quote: {

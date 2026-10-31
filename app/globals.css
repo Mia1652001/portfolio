@@ -1,38 +1,48 @@
 @import "tailwindcss";
 
 /*
-  Design system — dark high tech look.
+  Design system — light, high end, Apple style look.
   Each color below becomes a Tailwind class automatically:
-  --color-bg      → bg-bg, text-bg, border-bg
-  --color-text    → text-text, bg-text
-  --color-muted   → text-muted
-  --color-accent  → text-accent, bg-accent, border-accent
-  --color-line    → border-line, bg-line
+  --color-bg          → bg-bg, text-bg (white page background)
+  --color-panel       → bg-panel (soft grey panels and cards)
+  --color-line        → border-line, bg-line (thin borders)
+  --color-text        → text-text, bg-text (main text, black buttons)
+  --color-muted       → text-muted (secondary text)
+  --color-faint       → text-faint (light grey text)
+  --color-accent      → text-accent, bg-accent, border-accent (deep green)
+  --color-accent-soft → bg-accent-soft (pale green)
 */
 @theme {
-  --color-bg: #07090C;
-  --color-text: #E8ECEF;
-  --color-muted: #A3ADB5;
-  --color-accent: #5CF2B8;
-  --color-line: #1F262D;
-
-  /* Blinking typing cursor → animate-blink */
-  --animate-blink: blink 1s step-end infinite;
-
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
+  --color-bg: #FFFFFF;
+  --color-panel: #F6F7F9;
+  --color-line: #E6E8EC;
+  --color-text: #0F1115;
+  --color-muted: #5B616B;
+  --color-faint: #8A9099;
+  --color-accent: #0F7A5A;
+  --color-accent-soft: #E8F3EE;
 
   /*
-    One pass of light across text-sweep words, one word after another
-    → animate-sweep-1, animate-sweep-2, animate-sweep-3
-    (starts at 2s, once the headline words are all in)
+    Soft shadows, tinted with the text color
+    --shadow-soft   → shadow-soft (nav, pills, cards)
+    --shadow-device → shadow-device (laptop and phone frames)
   */
-  --animate-sweep-1: sweep 1.1s ease-in-out 2s both;
-  --animate-sweep-2: sweep 1.1s ease-in-out 2.15s both;
-  --animate-sweep-3: sweep 1.1s ease-in-out 2.3s both;
+  --shadow-soft: 0 8px 30px -12px color-mix(in oklab, var(--color-text) 18%, transparent);
+  --shadow-device:
+    0 2px 6px color-mix(in oklab, var(--color-text) 6%, transparent),
+    0 40px 80px -30px color-mix(in oklab, var(--color-text) 35%, transparent);
+
+  /* Dash sliding down the hero's scroll cue line → animate-scroll-cue */
+  --animate-scroll-cue: scroll-cue 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  @keyframes scroll-cue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(200%);
+    }
+  }
 
   /* Soft light moving across an image while it loads → animate-shimmer */
   --animate-shimmer: shimmer 1.6s linear infinite;
@@ -45,72 +55,46 @@
       background-position: -50% 0;
     }
   }
-
-  @keyframes sweep {
-    from {
-      background-position: 100% 0%;
-    }
-    to {
-      background-position: 0% 0%;
-    }
-  }
-}
-
-/*
-  Mint text with a band of light hidden off to the side → text-sweep.
-  Moving background-position from 100% to 0% sweeps the light across once.
-*/
-@utility text-sweep {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-accent) 40%,
-    color-mix(in oklab, var(--color-accent) 25%, white) 50%,
-    var(--color-accent) 60%
-  );
-  background-size: 250% 100%;
-  background-position: 0% 0%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* Loading placeholder for images; add motion-safe:animate-shimmer to make it move → shimmer */
 @utility shimmer {
-  background-color: var(--color-line);
+  background-color: var(--color-panel);
   background-image: linear-gradient(
     100deg,
     transparent 30%,
-    color-mix(in oklab, var(--color-accent) 10%, transparent) 50%,
+    color-mix(in oklab, var(--color-bg) 80%, transparent) 50%,
     transparent 70%
   );
   background-size: 200% 100%;
 }
 
-/* Faint mint grid → bg-grid */
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--color-accent) 9%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--color-accent) 9%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Faint grey dot grid that fades out toward the bottom → dot-grid */
+@utility dot-grid {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--color-faint) 45%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 85%);
+  mask-image: linear-gradient(to bottom, black 20%, transparent 85%);
 }
 
 /*
   Fonts — each becomes a Tailwind class:
-  --font-sans    → font-sans (Inter, body text)
-  --font-heading → font-heading (Space Grotesk, headings)
-  --font-mono    → font-mono (JetBrains Mono, small labels)
+  --font-sans → font-sans (Geist, used for everything)
+  --font-mono → font-mono (Geist Mono, small labels in capitals)
 */
 @theme inline {
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
 }
 
 /* Base styles */
 html {
   scroll-behavior: smooth;
-  /* Stops sections hiding under the sticky nav when you jump to them */
-  scroll-padding-top: 5rem;
+  /* Stops sections hiding under the floating nav when you jump to them */
+  scroll-padding-top: 6rem;
 }
 
 /* No smooth scrolling for people who have reduced motion switched on */
@@ -123,20 +107,13 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
-}
-
-/* Mint highlight when text is selected */
+/* Pale green highlight when text is selected */
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
+  background-color: var(--color-accent-soft);
+  color: var(--color-text);
 }

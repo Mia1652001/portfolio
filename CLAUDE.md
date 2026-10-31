@@ -31,45 +31,58 @@ The dev server runs at: [http://localhost:3000](http://localhost:3000)
 - **Comments:** add a short comment above every function explaining what it does  
 - Always include loading states and error handling
 
-## Design System — Dark High Tech Look
+## Design System — Light, High End, Apple Style Look
 
-The colors and fonts live in `app/globals.css` (inside the `@theme` blocks). Always use the Tailwind class names below. Never type hex codes like `#1A1A1A` straight into components.
+The colors, shadows and fonts live in `app/globals.css` (inside the `@theme` blocks). Always use the Tailwind class names below. Never type hex codes like `#0F1115` straight into components.
 
 ### Colors
 
 | Role | Hex | Tailwind classes |
 | --- | --- | --- |
-| Background | `#07090C` | `bg-bg` |
-| Main text | `#E8ECEF` | `text-text` |
-| Muted text | `#A3ADB5` | `text-muted` |
-| Accent (mint) | `#5CF2B8` | `text-accent`, `bg-accent`, `border-accent` |
-| Border lines | `#1F262D` | `border-line`, `bg-line` |
+| Page background | `#FFFFFF` | `bg-bg` (also `text-bg` for white text on black buttons) |
+| Soft panels and cards | `#F6F7F9` | `bg-panel` |
+| Border lines | `#E6E8EC` | `border-line`, `bg-line` |
+| Main text | `#0F1115` | `text-text`, `bg-text` (black buttons) |
+| Muted text | `#5B616B` | `text-muted` |
+| Light grey text | `#8A9099` | `text-faint` |
+| Accent (deep green) | `#0F7A5A` | `text-accent`, `bg-accent`, `border-accent` |
+| Pale green | `#E8F3EE` | `bg-accent-soft` |
 
-- Mint is the only bright color. Use it sparingly: buttons, links, hover states, small highlights.
-- Text on a mint background uses `text-bg` (dark) so it stays readable.
-- Thin borders and dividers use `border-line`.
+- Mostly white, black and grey. Deep green is the only accent: use it sparingly for small highlights (status dots, section numbers, icons, links).
+- Main buttons are black pills: `rounded-full bg-text text-bg`. Second buttons are white pills with a border: `rounded-full border border-line bg-bg text-text`.
+- Pale green (`bg-accent-soft`) goes behind green icons and small badges.
+- Thin borders and dividers use `border-line`. Cards and panels use `bg-panel` with `border-line`.
+- No glows, neon or dark backgrounds.
+
+### Shadows
+
+| Use | Tailwind class |
+| --- | --- |
+| Nav, pills, cards | `shadow-soft` |
+| Laptop and phone frames | `shadow-device` |
 
 ### Fonts
 
 | Use | Font | Tailwind class |
 | --- | --- | --- |
-| Headings | Space Grotesk | `font-heading` (applied to h1–h6 automatically) |
-| Body text | Inter | `font-sans` (the default) |
-| Small labels, tags, numbers | JetBrains Mono | `font-mono` |
+| Everything (headings and body) | Geist | `font-sans` (the default) |
+| Small labels in capitals | Geist Mono | `font-mono` |
 
 - Fonts are loaded in `app/layout.tsx` with `next/font/google`.
-- Small labels: `font-mono text-xs uppercase tracking-widest text-muted` is a good starting style.
+- Headings: `font-semibold` with tight letter spacing, e.g. `tracking-[-0.04em]` for big headlines, `tracking-[-0.03em]` for smaller ones.
+- Small labels: `font-mono text-xs uppercase tracking-widest text-faint` is a good starting style.
 
 ### Animation
 
 - Use the **motion** library (package name `motion`) for animations.
 - Import it in components with: `import { motion } from "motion/react"`
 - Any component that uses motion needs `'use client'` at the top.
-- Keep animations subtle: short fades and slides, nothing flashy.
-- Only animate movement (`x`, `y`, `scale`), fading (`opacity`) and blur — never width, height or position, so it stays smooth on phones.
+- Keep animations subtle and calm: short fades, gentle rises and soft blur, nothing flashy.
+- Only animate movement (`x`, `y`, `scale`, `rotate`), fading (`opacity`) and blur — never width, height or position, so it stays smooth on phones.
 - Motion values (scroll effects, magnetic pull) go through motion's `style` prop. This is the one allowed exception to "no inline styles".
 - Reduced motion: every animation must turn off when the visitor has it switched on. Check it with `usePrefersReducedMotion()` from `lib/useMediaQuery.ts` (not motion's own `useReducedMotion`, which can cause a server/browser mismatch). For CSS animations use the `motion-safe:` prefix.
-- The hero background (grid, spotlight, data pulses) is drawn on a canvas in `components/HeroCanvas.tsx`.
+- Hero (`components/Hero.tsx`): text only, fills the screen with everything centred. Faint dot grid background (the `dot-grid` class), headline words rise from blurred into focus one after another, and a small scroll cue at the bottom.
+- VeFlow case study (`components/VeFlowShowcase.tsx`, inside the work section): laptop and phone using `LaptopFrame`, `PhoneFrame` and `FloatingPhone`. The laptop tilts up into place when it scrolls into view and grows slightly while scrolling; the phone floats gently.
 
 ## Portfolio Projects (to feature on the site)
 
@@ -102,12 +115,15 @@ All project text, links, numbers and screenshot paths live in `lib/projects.ts`,
 ### Done
 
 - [x] Project created with `create-next-app` (TypeScript, Tailwind, App Router)
-- [x] Dark design system set up: colors, three fonts, motion library installed
+- [x] Motion library installed
+- [x] Light, Apple style design system: colors, shadows, Geist fonts
+- [x] New floating pill nav and full screen, text only hero
+- [x] VeFlow case study: laptop and phone showcase replaces the old 5 step scroll story
 
 ### Known Issues
 
-- The old light colors are still typed in as inline styles in `app/page.tsx`, `app/contact/page.tsx` and `components/Nav.tsx`. They need replacing with the new Tailwind color classes.
+- None right now.
 
 ### Next Steps
 
-- Restyle each page and component with the new dark design system  
+- Polish the work, services, about and contact sections in the new light style  

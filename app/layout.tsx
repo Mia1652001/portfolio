@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Space Grotesk for headings
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Geist for everything
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
 });
 
-// Inter for body text
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-// JetBrains Mono for small labels
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+// Geist Mono for small labels in capitals
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -31,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       <body>{children}</body>
     </html>
   );

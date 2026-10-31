@@ -9,10 +9,10 @@ export function Services() {
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="border-t border-line pt-20 sm:pt-28">
           {/* Section intro */}
-          <p className="font-mono text-xs uppercase tracking-widest text-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-faint">
             <span className="text-accent">02</span> / Services
           </p>
-          <h2 className="mt-5 max-w-3xl text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-balance text-text">
+          <h2 className="mt-5 max-w-3xl text-4xl sm:text-6xl lg:text-7xl font-semibold leading-[1.05] tracking-[-0.04em] text-balance text-text">
             <RevealWords text="What I can build for you" />
           </h2>
 

@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useHasMouse, usePrefersReducedMotion } from "@/lib/useMediaQuery";
+import { usePrefersReducedMotion } from "@/lib/useMediaQuery";
 import type { Service } from "@/lib/projects";
-import { BorderGlow, useBorderGlow } from "@/components/BorderGlow";
 
 // The lines that make up each icon, drawn on a 24 × 24 grid
 const iconPaths: Record<Service["icon"], string[]> = {
@@ -52,28 +51,16 @@ function ServiceIcon({ icon }: { icon: Service["icon"] }) {
 }
 
 // Service card: drawing icon, text, what's included, proof and a link to the matching project.
-// Lifts on hover, with the same mint border glow as the project cards.
+// A soft grey panel that lifts on hover.
 export function ServiceCard({ service }: { service: Service }) {
-  const reduceMotion = usePrefersReducedMotion();
-  const hasMouse = useHasMouse();
-  const { glow, trackGlow } = useBorderGlow();
-  const interactive = hasMouse && !reduceMotion;
-
   return (
-    <article
-      onPointerMove={interactive ? trackGlow : undefined}
-      className={`group relative h-full rounded-2xl bg-line p-px transition-[translate,background-color] duration-300 ease-out hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
-        interactive ? "" : "hover:bg-accent/40"
-      }`}
-    >
-      {interactive && <BorderGlow glow={glow} />}
-
-      <div className="relative flex h-full flex-col rounded-[15px] bg-bg p-7 sm:p-8">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-line text-accent">
+    <article className="group h-full rounded-3xl border border-line bg-panel transition-[translate,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:shadow-soft motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+      <div className="flex h-full flex-col p-7 sm:p-8">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent">
           <ServiceIcon icon={service.icon} />
         </div>
 
-        <h3 className="mt-8 font-heading text-2xl font-bold tracking-tight text-text">{service.title}</h3>
+        <h3 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-text">{service.title}</h3>
         <p className="mt-3 leading-relaxed text-muted">{service.text}</p>
 
         {service.includes && (

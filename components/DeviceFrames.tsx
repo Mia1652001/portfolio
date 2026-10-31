@@ -3,53 +3,67 @@
 import { ReactNode } from "react";
 import { ShimmerImage } from "@/components/ShimmerImage";
 
-// One app screenshot filling its frame, or a "coming soon" placeholder when there is no image yet
-export function AppScreen({ image, alt, sizes }: { image: string; alt: string; sizes: string }) {
-  if (!image) {
-    return (
-      <div className="absolute inset-0 flex items-center justify-center bg-bg bg-grid">
-        <span className="font-mono text-[11px] sm:text-xs uppercase tracking-widest text-muted">
-          Screenshot coming soon
-        </span>
-      </div>
-    );
-  }
-
+// One app screenshot filling its frame.
+// `preload` loads the image straight away; use it for screenshots near the top of the page.
+export function AppScreen({
+  image,
+  alt,
+  sizes,
+  preload = false,
+}: {
+  image: string;
+  alt: string;
+  sizes: string;
+  preload?: boolean;
+}) {
   return (
     <ShimmerImage
       src={image}
       alt={alt}
       fill
       sizes={sizes}
+      preload={preload}
       wrapperClassName="absolute inset-0"
       className="object-cover object-top"
     />
   );
 }
 
-// Laptop outline: a screen with a thin bezel and a base underneath
+// Laptop: a black screen bezel with a thin silver edge, and an aluminium base underneath.
+// Sizes are percentages, so it keeps its shape from phone to desktop.
 export function LaptopFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full">
-      <div className="rounded-t-2xl border border-line bg-bg p-2 sm:p-2.5 pb-0 sm:pb-0 shadow-2xl shadow-black/70">
-        <div className="relative aspect-[3104/1878] overflow-hidden rounded-t-lg bg-bg">
-          {children}
+    <div className="relative isolate w-full">
+      {/* Screen */}
+      <div className="rounded-t-[1.6%_2.6%] bg-line p-[0.35%] pb-0 shadow-device">
+        <div className="rounded-t-[1.4%_2.3%] bg-text p-[1.6%] pb-[2%]">
+          <div className="relative aspect-[3104/1878] overflow-hidden rounded-[0.4%_0.6%] bg-panel">
+            {children}
+          </div>
         </div>
       </div>
-      <div className="relative h-3 sm:h-4 -mx-[4%] rounded-b-2xl border border-t-0 border-line bg-gradient-to-b from-line to-bg">
-        <div className="absolute left-1/2 top-0 h-1.5 w-1/6 -translate-x-1/2 rounded-b-md bg-bg/70" />
+
+      {/* Base, a little wider than the screen, with the opening notch in the middle */}
+      <div className="relative -mx-[5%] aspect-[100/2.6] rounded-b-[4%_100%] border-x border-b border-line bg-linear-to-b from-panel to-line">
+        <div className="absolute left-1/2 top-0 h-[40%] w-[13%] -translate-x-1/2 rounded-b-[30%_100%] bg-line" />
       </div>
+
+      {/* Soft shadow on the "table" under the base */}
+      <div aria-hidden="true" className="absolute inset-x-[2%] -bottom-[2%] -z-10 h-[4%] rounded-[50%] bg-text/15 blur-xl" />
     </div>
   );
 }
 
-// Phone outline with rounded corners and a notch
+// Phone: a black bezel with a thin silver edge, rounded corners and a Dynamic Island.
+// Corner sizes are percentages (width / height), so they stay round at any size.
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[2rem] border border-line bg-bg p-1.5 shadow-2xl shadow-black/70">
-      <div className="relative aspect-[1170/2532] overflow-hidden rounded-[1.6rem] bg-bg">
-        {children}
-        <div className="absolute left-1/2 top-1.5 h-4 w-1/3 -translate-x-1/2 rounded-full bg-bg" />
+    <div className="rounded-[17%/7.9%] bg-line p-[1.4%] shadow-device">
+      <div className="rounded-[16%/7.4%] bg-text p-[3.4%]">
+        <div className="relative aspect-[1170/2532] overflow-hidden rounded-[13%/6%] bg-panel">
+          {children}
+          <div className="absolute left-1/2 top-[1.6%] h-[3.6%] w-[32%] -translate-x-1/2 rounded-full bg-text" />
+        </div>
       </div>
     </div>
   );

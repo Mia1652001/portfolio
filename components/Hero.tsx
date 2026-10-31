@@ -1,147 +1,137 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { usePrefersReducedMotion } from "@/lib/useMediaQuery";
-import { HeroCanvas } from "@/components/HeroCanvas";
 import { MagneticLink } from "@/components/MagneticLink";
-import { TypingLine } from "@/components/TypingLine";
 
-// Headline words. Mint words get a light sweep that starts once all the
-// words are in (about 2 seconds after load), one word after another.
-const headline = [
-  { word: "I", accent: false },
-  { word: "build", accent: false },
-  { word: "websites", accent: false },
-  { word: "and", accent: false },
-  { word: "the", accent: false },
-  { word: "software", accent: false },
-  { word: "businesses", accent: true, sweep: "motion-safe:animate-sweep-1" },
-  { word: "run", accent: true, sweep: "motion-safe:animate-sweep-2" },
-  { word: "on.", accent: true, sweep: "motion-safe:animate-sweep-3" },
+// Headline, one array per line. The second line is light grey.
+const headlineLines = [
+  { words: ["Websites", "and", "software,"], className: "text-text" },
+  { words: ["built", "to", "perform."], className: "text-faint" },
 ];
 
 // Intro timing, in seconds after the page loads
-const WORDS_START = 0.7; // the grid is mostly drawn by now
-const WORD_STAGGER = 0.09;
-const WORDS_DONE = WORDS_START + headline.length * WORD_STAGGER + 0.3;
+const WORDS_START = 0.25;
+const WORD_STAGGER = 0.08;
+const WORD_COUNT = headlineLines.reduce((count, line) => count + line.words.length, 0);
+const WORDS_DONE = WORDS_START + WORD_COUNT * WORD_STAGGER + 0.2;
+
+// Position of each line's first word in the whole headline, so the stagger carries on into line two
+const lineStarts = headlineLines.map((_, lineIndex) =>
+  headlineLines.slice(0, lineIndex).reduce((count, line) => count + line.words.length, 0)
+);
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Homepage hero: animated grid canvas, availability pill, headline intro,
-// typing line, magnetic buttons and a scroll fade
+// Homepage hero, filling the screen with everything centred: dot grid background,
+// availability pill, word by word headline, subtext, two buttons and a scroll cue
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = usePrefersReducedMotion();
-
-  // Text drifts down and fades as the hero scrolls away, so it moves slower than the page
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   // Fade-up entrance for an item, or nothing at all when reduced motion is on
   function fadeUp(delay: number) {
     if (reduceMotion) return {};
     return {
-      initial: { opacity: 0, y: 16 },
+      initial: { opacity: 0, y: 14 },
       animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.7, delay, ease },
-    };
-  }
-
-  // Headline word entrance: starts blurred and low, slides up into sharp focus
-  function blurUp(delay: number) {
-    if (reduceMotion) return {};
-    return {
-      initial: { opacity: 0, y: 28, filter: "blur(12px)" },
-      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
       transition: { duration: 0.8, delay, ease },
     };
   }
 
+  // Headline word entrance: starts slightly blurred and low, rises into sharp focus
+  function blurUp(delay: number) {
+    if (reduceMotion) return {};
+    return {
+      initial: { opacity: 0, y: 24, filter: "blur(10px)" },
+      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+      transition: { duration: 0.9, delay, ease },
+    };
+  }
+
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-bg">
-      <HeroCanvas />
+    <section className="relative flex min-h-[calc(100svh-4.5rem)] flex-col">
+      {/* Faint dot grid, reaching up behind the nav and fading out downward */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 dot-grid" />
 
       {/* key: starts the content fresh if reduced motion turns on, so nothing is left mid-animation */}
-      <motion.div
-        key={reduceMotion ? "still" : "animated"}
-        style={reduceMotion ? undefined : { y: textY, opacity: textOpacity }}
-        className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 sm:pt-28 sm:pb-32"
-      >
-        {/* Availability pill */}
-        <motion.div
-          {...fadeUp(0.3)}
-          className="inline-flex items-center gap-2.5 rounded-full border border-line bg-bg/60 px-3.5 py-1.5 backdrop-blur-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-          </span>
-          <span className="font-mono text-[11px] sm:text-xs uppercase tracking-widest text-muted">
-            Available for new projects
-          </span>
-        </motion.div>
-
-        {/* Headline, revealed word by word */}
-        <h1
-          aria-label="I build websites and the software businesses run on."
-          className="mt-8 max-w-4xl text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold tracking-tight text-balance text-text"
-        >
-          {headline.map((item, index) => (
-            <span key={index} aria-hidden="true">
-              <motion.span
-                {...blurUp(WORDS_START + index * WORD_STAGGER)}
-                className="inline-block"
-              >
-                {item.accent ? (
-                  <span className={`text-sweep ${item.sweep}`}>
-                    {item.word}
-                  </span>
-                ) : (
-                  item.word
-                )}
-              </motion.span>{" "}
+      <div key={reduceMotion ? "still" : "animated"} className="relative flex flex-1 flex-col">
+        <div className="mx-auto my-auto flex max-w-5xl flex-col items-center px-5 sm:px-8 py-16 sm:py-20 text-center">
+          {/* Availability pill */}
+          <motion.div
+            {...fadeUp(0.1)}
+            className="inline-flex items-center gap-2.5 rounded-full border border-line bg-bg px-3.5 py-1.5 shadow-soft"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-60 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-          ))}
-        </h1>
+            <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+              Available for new projects
+            </span>
+          </motion.div>
 
-        {/* Subtext */}
-        <motion.p
-          {...fadeUp(WORDS_DONE)}
-          className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-muted"
-        >
-          From e-commerce stores to custom tools, I design and build sites
-          that look great and actually work.
-        </motion.p>
-
-        {/* Typing line */}
-        <motion.div {...fadeUp(WORDS_DONE + 0.15)} className="mt-5">
-          <TypingLine startDelay={WORDS_DONE + 0.7} />
-        </motion.div>
-
-        {/* Magnetic buttons */}
-        <motion.div
-          {...fadeUp(WORDS_DONE + 0.3)}
-          className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4"
-        >
-          <MagneticLink
-            href="#work"
-            className="rounded-full bg-accent px-7 py-3.5 text-center text-sm font-semibold text-bg transition-shadow duration-300 hover:shadow-[0_0_40px_-6px_var(--color-accent)]"
+          {/* Headline on two lines, revealed word by word */}
+          <h1
+            aria-label="Websites and software, built to perform."
+            className="mt-8 sm:mt-10 text-[2.5rem] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[5.25rem] font-semibold tracking-[-0.04em]"
           >
-            See my work
-          </MagneticLink>
-          <MagneticLink
-            href="#contact"
-            className="rounded-full border border-line px-7 py-3.5 text-center text-sm font-semibold text-text transition-[color,border-color,box-shadow] duration-300 hover:border-accent hover:text-accent hover:shadow-[0_0_32px_-8px_var(--color-accent)]"
+            {headlineLines.map((line, lineIndex) => (
+              <span key={line.words.join(" ")} aria-hidden="true" className={`block ${line.className}`}>
+                {line.words.map((word, index) => (
+                  <span key={word}>
+                    <motion.span
+                      {...blurUp(WORDS_START + (lineStarts[lineIndex] + index) * WORD_STAGGER)}
+                      className="inline-block"
+                    >
+                      {word}
+                    </motion.span>{" "}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </h1>
+
+          {/* Subtext */}
+          <motion.p
+            {...fadeUp(WORDS_DONE - 0.3)}
+            className="mt-6 sm:mt-8 max-w-2xl text-[17px] sm:text-xl leading-relaxed text-muted text-balance"
           >
-            Let&apos;s talk
-          </MagneticLink>
-        </motion.div>
-      </motion.div>
+            I design and build brand websites, online stores and custom systems.
+            My own product, VeFlow, runs car rental companies across Mauritius.
+          </motion.p>
+
+          {/* Buttons */}
+          <motion.div
+            {...fadeUp(WORDS_DONE - 0.15)}
+            className="mt-9 sm:mt-10 flex flex-wrap justify-center gap-3"
+          >
+            <MagneticLink
+              href="#work"
+              className="rounded-full bg-text px-6 py-3 text-[15px] font-medium text-bg transition-opacity hover:opacity-85"
+            >
+              See my work
+            </MagneticLink>
+            <MagneticLink
+              href="#contact"
+              className="rounded-full border border-line bg-bg px-6 py-3 text-[15px] font-medium text-text shadow-soft transition-colors hover:bg-panel"
+            >
+              Let&apos;s talk
+            </MagneticLink>
+          </motion.div>
+        </div>
+
+        {/* Scroll cue: a short line with a dark dash sliding down it */}
+        <motion.a
+          href="#work"
+          {...fadeUp(WORDS_DONE + 0.4)}
+          className="mx-auto mb-6 sm:mb-8 flex flex-col items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-faint transition-colors hover:text-text"
+        >
+          Scroll
+          <span aria-hidden="true" className="relative h-10 w-px overflow-hidden bg-line">
+            <span className="absolute inset-x-0 top-0 h-1/2 bg-text motion-safe:animate-scroll-cue" />
+          </span>
+        </motion.a>
+      </div>
     </section>
   );
 }
