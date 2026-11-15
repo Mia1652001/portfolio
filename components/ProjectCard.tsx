@@ -124,7 +124,7 @@ export function ProjectCard({ project }: { project: Project }) {
                 width={project.image.width}
                 height={project.image.height}
                 alt={`${project.name} website, full page`}
-                sizes="(min-width: 768px) 560px, 100vw"
+                sizes="(min-width: 1024px) 360px, 100vw"
                 wrapperClassName="relative w-full"
                 className="h-auto w-full"
               />

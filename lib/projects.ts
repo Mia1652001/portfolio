@@ -49,6 +49,14 @@ export const veflow = {
 // Smaller project cards shown under VeFlow
 export const projects: Project[] = [
   {
+    id: "astar-cutz",
+    name: "A Star Cutz",
+    line: "Booking site for a mobile barber, with live free times.",
+    tags: ["Booking system", "English and French", "Next.js"],
+    link: { label: "astarcutz.vercel.app", href: "https://astarcutz.vercel.app" },
+    image: { src: "/projects/astar-cutz.png", width: 1440, height: 3527 },
+  },
+  {
     id: "betty-beach",
     name: "Betty Beach",
     line: "Swimwear brand store with custom branding.",

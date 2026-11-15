@@ -20,8 +20,8 @@ export function Work() {
           <VeFlowCaseStudy />
         </div>
 
-        {/* Other projects: side by side on wider screens, stacked on phones */}
-        <div className="mt-10 grid gap-14 md:grid-cols-2 md:gap-8">
+        {/* Other projects: three in a row on wide screens, stacked on phones and tablets */}
+        <div className="mt-10 grid gap-14 lg:grid-cols-3 lg:gap-8">
           {projects.map((project) => (
             <ProjectCard key={project.name} project={project} />
           ))}
